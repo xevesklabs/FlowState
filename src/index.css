@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
 
 :root {
+  /* Premium Dark Palette */
   --bg-darker: #050505;
   --bg-dark: #0a0a0a;
   --bg-panel: #111111;
@@ -34,9 +35,11 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* Typography Utilities */
 .font-serif { font-family: var(--font-serif); }
 .font-mono { font-family: var(--font-mono); }
 
+/* --- App Layout & Sidebar --- */
 .app-container {
   display: flex;
   height: 100vh;
@@ -61,6 +64,7 @@ body {
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--text-primary);
+  line-height: 1.1;
 }
 
 .nav-links {
@@ -109,4 +113,148 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
+}
+
+/* --- Kanban & Card Premium Styles --- */
+.kanban-board {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.kanban-column {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 0.5rem;
+}
+
+.column-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.column-count {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+}
+
+/* Premium Task Card */
+.task-card {
+  background-color: #0c0c0c;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.task-card:hover {
+  border-color: #444;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.difficulty-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+.diff-high { color: #d94b4b; border-color: rgba(217, 75, 75, 0.3); }
+.diff-medium { color: #d98e4b; border-color: rgba(217, 142, 75, 0.3); }
+.diff-low { color: #6e8574; border-color: rgba(110, 133, 116, 0.3); }
+
+.card-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.avatar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #222;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+}
+
+.badge-ovr {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #d94b4b;
+  border: 1px solid rgba(217, 75, 75, 0.3);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+}
+
+/* Big Input Card */
+.input-card {
+  background-color: #0c0c0c;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }

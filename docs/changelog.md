@@ -5,7 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [Unreleased] - Phase 4 Completion
+## [Unreleased] - Phase 5 Completion
+
+### Added
+- **Developer Habits Tracker:** Daily routine manager to maintain consistency and track goals.
+- **Contribution Heatmap:** A 30-day visual grid that dynamically lights up based on historical habit completion.
+- **Timezone-Safe Logging:** Engineered date normalization strictly to local `YYYY-MM-DD` strings to prevent streaks from breaking across UTC shifts.
+
+### Changed
+- **Database Schema (v6):** Upgraded Dexie.js IndexedDB schema to `v6`, restoring standard primary keys while introducing compound indexes (`[habitId+date]`) to ensure accurate daily logging without duplication.
+
+---
+
+##  Phase 4 Completion
 
 ### Added
 - **Pomodoro Module:** Distraction-free focus timer featuring 25-minute focus, 5-minute short break, and 15-minute long break intervals.

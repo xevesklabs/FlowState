@@ -4,6 +4,7 @@ export class FlowStateDB extends Dexie {
   constructor() {
     super('FlowStateDB');
     
+    // v1: Initial structure
     this.version(1).stores({
       tasks: '++id, priority, completed, createdAt',
       notes: '++id, isPinned, updatedAt',
@@ -11,6 +12,7 @@ export class FlowStateDB extends Dexie {
       habitLogs: '++id, habitId, date'
     });
 
+    // v2: Kanban statuses
     this.version(2).stores({
       tasks: '++id, status, priority, createdAt',
     }).upgrade(tx => {
@@ -20,6 +22,7 @@ export class FlowStateDB extends Dexie {
       });
     });
 
+    // v3: Urgency metrics
     this.version(3).stores({
       tasks: '++id, status, priority, deadline, createdAt',
     }).upgrade(tx => {
@@ -28,9 +31,21 @@ export class FlowStateDB extends Dexie {
       });
     });
 
-    // NEW: Schema Version 4 - Adding Pomodoro tracking
+    // v4: Pomodoro tracking
     this.version(4).stores({
       pomodoroSessions: '++id, mode, duration, completedAt'
+    });
+
+    // v5: Previous attempt (kept to maintain the upgrade chain)
+    this.version(5).stores({
+      habits: '++id, name, createdAt',
+      habitLogs: '[habitId+date], habitId, date' 
+    });
+
+    // FIX (v6): Restoring ++id as primary key to resolve IndexedDB block
+    this.version(6).stores({
+      habits: '++id, name, createdAt',
+      habitLogs: '++id, [habitId+date], habitId, date' 
     });
   }
 }

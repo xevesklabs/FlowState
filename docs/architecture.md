@@ -17,6 +17,7 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 - We use `dexie-react-hooks` (`useLiveQuery`) to bind React components directly to IndexedDB queries.
 - Read operations auto-update React components when the underlying database table changes.
 - **Sorting**: Queries are sorted at the database level where possible, or inside the `useLiveQuery` callback (e.g., sorting tasks by closest `deadline` ascending).
+- **Derived State**: Component selections (like active task or note IDs) use direct comparisons during render rather than relying on `useEffect` to avoid cascading re-renders and improve application performance.
 - Write operations use custom hooks adhering to immutable updates.
 
 ## Styling Standards

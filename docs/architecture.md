@@ -10,6 +10,7 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 - **v1**: Initial schema (`tasks` boolean completed, `notes`, `habits`).
 - **v2**: Kanban workflow support. Replaced boolean `completed` with string `status` ('todo', 'in_progress', 'completed').
 - **v3**: Urgency metrics. Added `deadline` timestamp to `tasks` and applied a fallback migration for legacy data.
+- **v4**: Pomodoro tracking. Added `pomodoroSessions` store for local analytics and completion metrics.
 
 *Rule: Never mutate an existing `.version()` block once deployed. Increment the version number and write an `.upgrade()` function for data transformations.*
 
@@ -24,3 +25,4 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 - Uses standard CSS with custom CSS variables defined in `src/index.css`.
 - Styled around a high-contrast, premium dark theme (`#050505` background, `#111111` panels) featuring Playfair Display serif headings and Inter/JetBrains Mono UI typography.
 - Employs outline-style badges, ghost buttons, and subtle hover transforms for a tactile, app-like feel.
+- **Timer Accuracy**: Long-running intervals (e.g., Pomodoro countdowns) must calculate remaining time using absolute `Date.now()` timestamp deltas instead of decrementing counters to prevent drift caused by browser background tab throttling.

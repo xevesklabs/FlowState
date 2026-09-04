@@ -5,10 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [Unreleased] - Phase 3 Completion
+## [Unreleased] - Phase 4 Completion
 
 ### Added
-- **Urgency Metrics & Deadlines:** Added a `deadline` property to tasks with real-time dynamic countdowns (`X days left`, `X hours left`, `< 1h left`).
+- **Pomodoro Module:** Distraction-free focus timer featuring 25-minute focus, 5-minute short break, and 15-minute long break intervals.
+- **Session Analytics:** Daily completion counter to track successful deep work intervals locally.
+- **Anti-Drift Timer Logic:** Engineered the countdown using absolute `Date.now()` timestamp deltas to guarantee perfect accuracy, bypassing browser background tab throttling.
+
+### Changed
+- **Database Schema (v4):** Upgraded Dexie.js IndexedDB schema to `v4` to introduce the `pomodoroSessions` store without mutating existing user tasks or notes.
+
+---
+
+## [Phase 3] - Notes & Urgency Metrics
+
+### Added
+- **Urgency Metrics & Deadlines:** Added a `deadline` property to tasks with real-time dynamic countdowns.
 - **Overdue Indicators:** Introduced a dynamic "OVR" badge that only appears when a task misses its deadline.
 - **Smart Sorting:** Tasks now automatically sort in ascending order based on their deadline (most urgent tasks appear first).
 - **Global Task Search:** Added a search bar to the Kanban header to filter tasks instantly by title across all boards.

@@ -1,27 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { X, Trash2, Check } from 'lucide-react';
 
-export function TaskDrawer({ task, isOpen, onClose, onSave, onDelete }) {
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('Medium');
-  const [status, setStatus] = useState('todo');
+const formatForInput = (timestamp) => {
+  if (!timestamp) return '';
+  const d = new Date(timestamp);
+  const pad = (n) => n.toString().padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
 
-  useEffect(() => {
-    if (task) {
-      setTitle(task.title);
-      setPriority(task.priority);
-      setStatus(task.status);
-    }
-  }, [task]);
+export function TaskDrawer({ task, isOpen, onClose, onSave, onDelete }) {
+  // 1. Initialize state directly from the task prop (or defaults)
+  const [title, setTitle] = useState(task?.title || '');
+  const [priority, setPriority] = useState(task?.priority || 'Medium');
+  const [status, setStatus] = useState(task?.status || 'todo');
+  const [deadline, setDeadline] = useState(formatForInput(task?.deadline));
+
+  // 2. Track the previous task ID
+  const [prevTaskId, setPrevTaskId] = useState(task?.id);
+
+  // 3. Reset state during render if a new task is selected (React's recommended pattern)
+  if (task?.id !== prevTaskId) {
+    setPrevTaskId(task?.id);
+    setTitle(task?.title || '');
+    setPriority(task?.priority || 'Medium');
+    setStatus(task?.status || 'todo');
+    setDeadline(formatForInput(task?.deadline));
+  }
 
   if (!isOpen || !task) return null;
 
   const handleSave = () => {
-    onSave(task.id, { title, priority, status });
+    const deadlineTimestamp = deadline ? new Date(deadline).getTime() : task.deadline;
+    onSave(task.id, { title, priority, status, deadline: deadlineTimestamp });
     onClose();
   };
 
-  // Reusable styles for the premium drawer look
   const labelStyle = {
     display: 'block',
     fontSize: '0.7rem',
@@ -47,33 +60,21 @@ export function TaskDrawer({ task, isOpen, onClose, onSave, onDelete }) {
 
   return (
     <>
-      {/* Backdrop overlay */}
       <div 
         onClick={onClose}
         style={{
-          position: 'fixed',
-          top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          zIndex: 40,
-          backdropFilter: 'blur(3px)'
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)', zIndex: 40, backdropFilter: 'blur(3px)'
         }}
       />
 
-      {/* Premium Drawer Panel */}
       <div 
         style={{
-          position: 'fixed',
-          top: 0, right: 0, bottom: 0,
-          width: '450px',
-          background: '#0a0a0a',
-          borderLeft: '1px solid #222',
-          zIndex: 50,
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '-10px 0 40px rgba(0,0,0,0.8)'
+          position: 'fixed', top: 0, right: 0, bottom: 0, width: '450px',
+          background: '#0a0a0a', borderLeft: '1px solid #222', zIndex: 50,
+          display: 'flex', flexDirection: 'column', boxShadow: '-10px 0 40px rgba(0,0,0,0.8)'
         }}
       >
-        {/* Drawer Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2rem 2rem 1.5rem', borderBottom: '1px solid #222' }}>
           <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 600, margin: 0, color: '#fff' }}>Edit Task.</h2>
           <button 
@@ -90,7 +91,6 @@ export function TaskDrawer({ task, isOpen, onClose, onSave, onDelete }) {
           </button>
         </div>
 
-        {/* Drawer Body (Form) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', flex: 1, padding: '2rem' }}>
           
           <div>
@@ -136,9 +136,20 @@ export function TaskDrawer({ task, isOpen, onClose, onSave, onDelete }) {
             </div>
           </div>
 
+          <div>
+            <label style={labelStyle}>Deadline</label>
+            <input 
+              type="datetime-local"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              style={{ ...inputStyle, colorScheme: 'dark' }}
+              onFocus={(e) => { e.target.style.borderColor = '#666'; }}
+              onBlur={(e) => { e.target.style.borderColor = '#333'; }}
+            />
+          </div>
+
         </div>
 
-        {/* Drawer Footer (Actions) */}
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem 2rem', borderTop: '1px solid #222', background: '#0a0a0a' }}>
           <button 
             onClick={() => { onDelete(task.id); onClose(); }}

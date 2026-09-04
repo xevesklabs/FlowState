@@ -1,19 +1,10 @@
+// src/lib/db.js
 import Dexie from 'dexie';
-
-/**
- * @typedef {Object} Task
- * @property {number} [id]
- * @property {string} title
- * @property {'High' | 'Medium' | 'Low'} priority
- * @property {'todo' | 'in_progress' | 'completed'} status
- * @property {number} createdAt
- */
 
 export class FlowStateDB extends Dexie {
   constructor() {
     super('FlowStateDB');
-    
-    // Schema Version 1 (Legacy)
+
     this.version(1).stores({
       tasks: '++id, priority, completed, createdAt',
       notes: '++id, isPinned, updatedAt',
@@ -21,17 +12,24 @@ export class FlowStateDB extends Dexie {
       habitLogs: '++id, habitId, date'
     });
 
-    // Schema Version 2 (Adding Workflow Statuses)
     this.version(2).stores({
       tasks: '++id, status, priority, createdAt',
     }).upgrade(tx => {
-      // Migrate existing tasks safely
       return tx.tasks.toCollection().modify(task => {
         task.status = task.completed ? 'completed' : 'todo';
         delete task.completed;
       });
     });
+
+    // NEW: Schema Version 3 - Adding Deadlines
+    this.version(3).stores({
+      tasks: '++id, status, priority, deadline, createdAt',
+    }).upgrade(tx => {
+      return tx.tasks.toCollection().modify(task => {
+        // Give legacy tasks a default deadline 7 days from now
+        task.deadline = task.deadline || (Date.now() + 7 * 24 * 60 * 60 * 1000); 
+      });
+    });
   }
 }
-
 export const db = new FlowStateDB();

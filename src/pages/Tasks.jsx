@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTasks } from '../hooks/useTasks';
 import { TaskCard } from '../components/TaskCard';
 import { TaskDrawer } from '../components/TaskDrawer';
-import { Plus } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 
 export function Tasks() {
   const { todoTasks, inProgressTasks, completedTasks, addTask, updateTask, deleteTask } = useTasks();
@@ -10,16 +10,23 @@ export function Tasks() {
   const [activeTab, setActiveTab] = useState('all');
   const [selectedTask, setSelectedTask] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Big Input Card State
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newDifficulty, setNewDifficulty] = useState('Medium');
+  const [newDeadline, setNewDeadline] = useState('');
 
   const handleAddTask = (e) => {
     e.preventDefault();
-    addTask(newTaskTitle, newDifficulty);
+    // Default to 24 hours from now if no deadline is selected
+    const deadlineTimestamp = newDeadline ? new Date(newDeadline).getTime() : Date.now() + (24 * 60 * 60 * 1000);
+    
+    addTask(newTaskTitle, newDifficulty, deadlineTimestamp);
+    
     setNewTaskTitle('');
     setNewDifficulty('Medium');
+    setNewDeadline('');
   };
 
   const openDrawer = (task) => {
@@ -39,6 +46,17 @@ export function Tasks() {
     fontFamily: 'var(--font-mono)',
     transition: 'all 0.2s ease',
   });
+
+  // Filter tasks based on the search query
+  const filterBySearch = (tasks) => {
+    if (!searchQuery.trim()) return tasks;
+    const lowerQuery = searchQuery.toLowerCase();
+    return tasks.filter(t => t.title.toLowerCase().includes(lowerQuery));
+  };
+
+  const filteredTodo = filterBySearch(todoTasks);
+  const filteredInProgress = filterBySearch(inProgressTasks);
+  const filteredCompleted = filterBySearch(completedTasks);
 
   const renderColumn = (title, count, tasks, dotColor) => (
     <div className="kanban-column">
@@ -64,11 +82,12 @@ export function Tasks() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+      
       {/* Page Header */}
       <header>
         <h1 className="font-serif" style={{ fontSize: '2.5rem', fontWeight: 600, margin: 0, color: '#fff' }}>Tasks.</h1>
       </header>
-      
+
       {/* Big Add Task Card */}
       <form onSubmit={handleAddTask} className="input-card">
         <input 
@@ -81,22 +100,39 @@ export function Tasks() {
             fontSize: '1.25rem', outline: 'none', width: '100%'
           }}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid #222' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Difficulty</span>
-            <select 
-              value={newDifficulty}
-              onChange={(e) => setNewDifficulty(e.target.value)}
-              style={{
-                background: '#111', border: '1px solid #333', color: '#fff',
-                padding: '0.4rem 0.8rem', borderRadius: '4px', outline: 'none', fontSize: '0.8rem', fontFamily: 'var(--font-mono)'
-              }}
-            >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid #222', flexWrap: 'wrap', gap: '1rem' }}>
+          
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Difficulty</span>
+              <select 
+                value={newDifficulty}
+                onChange={(e) => setNewDifficulty(e.target.value)}
+                style={{
+                  background: '#111', border: '1px solid #333', color: '#fff',
+                  padding: '0.4rem 0.8rem', borderRadius: '4px', outline: 'none', fontSize: '0.8rem', fontFamily: 'var(--font-mono)'
+                }}
+              >
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Deadline</span>
+              <input 
+                type="datetime-local"
+                value={newDeadline}
+                onChange={(e) => setNewDeadline(e.target.value)}
+                style={{
+                  background: '#111', border: '1px solid #333', color: '#fff', colorScheme: 'dark',
+                  padding: '0.4rem 0.8rem', borderRadius: '4px', outline: 'none', fontSize: '0.8rem', fontFamily: 'var(--font-mono)'
+                }}
+              />
+            </div>
           </div>
+
           <button 
             type="submit"
             disabled={!newTaskTitle.trim()}
@@ -111,24 +147,41 @@ export function Tasks() {
         </div>
       </form>
 
-      {/* Top Toggle Bar */}
-      <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid #222', paddingBottom: '1rem' }}>
+      {/* Top Toggle Bar & Search */}
+      <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid #222', paddingBottom: '1rem', alignItems: 'center' }}>
         <button type="button" onClick={() => setActiveTab('all')} style={toggleStyle('all')}>ALL BOARDS</button>
         <button type="button" onClick={() => setActiveTab('todo')} style={toggleStyle('todo')}>TO DO</button>
         <button type="button" onClick={() => setActiveTab('in_progress')} style={toggleStyle('in_progress')}>IN PROGRESS</button>
         <button type="button" onClick={() => setActiveTab('completed')} style={toggleStyle('completed')}>DONE</button>
+        
+        <div style={{ marginLeft: 'auto', position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <Search size={14} style={{ position: 'absolute', left: '10px', color: 'var(--text-secondary)' }} />
+          <input 
+            type="text"
+            placeholder="Search tasks..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              background: '#111', border: '1px solid #333', color: '#fff',
+              padding: '0.5rem 1rem 0.5rem 2rem', borderRadius: '6px', outline: 'none', fontSize: '0.85rem', width: '250px',
+              fontFamily: 'var(--font-sans)', transition: 'border-color 0.2s ease'
+            }}
+            onFocus={(e) => e.target.style.borderColor = '#666'}
+            onBlur={(e) => e.target.style.borderColor = '#333'}
+          />
+        </div>
       </div>
 
       {/* Kanban Board Grid */}
       <div className="kanban-board">
         {(activeTab === 'all' || activeTab === 'todo') && 
-          renderColumn('TO DO', todoTasks.length, todoTasks, '#666')}
+          renderColumn('TO DO', filteredTodo.length, filteredTodo, '#666')}
         
         {(activeTab === 'all' || activeTab === 'in_progress') && 
-          renderColumn('IN PROGRESS', inProgressTasks.length, inProgressTasks, '#d98e4b')}
+          renderColumn('IN PROGRESS', filteredInProgress.length, filteredInProgress, '#d98e4b')}
         
         {(activeTab === 'all' || activeTab === 'completed') && 
-          renderColumn('DONE', completedTasks.length, completedTasks, '#6e8574')}
+          renderColumn('DONE', filteredCompleted.length, filteredCompleted, '#6e8574')}
       </div>
 
       {/* Side Drawer */}

@@ -1,19 +1,25 @@
+// src/hooks/useTasks.js
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../lib/db';
 
 export function useTasks() {
   const tasks = useLiveQuery(
-    () => db.tasks.orderBy('createdAt').reverse().toArray()
+    async () => {
+      const allTasks = await db.tasks.toArray();
+      // Sort by deadline ascending (most urgent first)
+      return allTasks.sort((a, b) => (a.deadline || Infinity) - (b.deadline || Infinity));
+    }
   ) ?? [];
 
-  const addTask = async (title, priority) => {
+  const addTask = async (title, priority, deadline) => {
     const trimmed = title.trim();
     if (!trimmed) return;
-    
+
     await db.tasks.add({
       title: trimmed,
       priority: priority || 'Medium',
       status: 'todo',
+      deadline: deadline || (Date.now() + 24 * 60 * 60 * 1000), // Default 24h
       createdAt: Date.now(),
     });
   };

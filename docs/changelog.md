@@ -5,7 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [Unreleased] - Phase 5 Completion
+
+## [Unreleased] - Phase 6 Completion
+
+### Added
+- **Dashboard Command Center:** Implemented a unified overview as the default application route.
+- **Urgency Triage:** A widget that automatically surfaces the top 5 most urgent incomplete tasks and highlights overdue items.
+- **Daily Launchpad:** Quick-action habit checklist for the current day with a direct link to start a Pomodoro session.
+- **Productivity Score Heatmap:** A 30-day master grid that aggregates both Pomodoro focus sessions and Habit completions to visualize overall daily momentum.
+
+### Fixed
+- **Render Purity:** Resolved `react-hooks/purity` warnings by moving impure `Date.now()` calls into state and updating them via a 60-second `setInterval` to keep overdue badges accurate.
+- **Dependency Stability:** Fixed `react-hooks/exhaustive-deps` warnings by removing inline fallback arrays from `useLiveQuery` results and managing default states inside `useMemo`. This stabilizes dependency references and prevents unnecessary component re-renders.
+
+
+
+## Phase 5 Completion
 
 ### Added
 - **Developer Habits Tracker:** Daily routine manager to maintain consistency and track goals.

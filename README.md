@@ -3,6 +3,7 @@
 An offline-first, high-performance productivity suite designed for developers. FlowState keeps all data securely on your device using IndexedDB, ensuring zero latency, absolute privacy, and seamless offline functionality. Styled with a premium, high-contrast dark Kanban aesthetic.
 
 ## Core Features
+- **Unified Dashboard**: A central command center featuring a 30-day productivity heatmap, urgent task triage, and a daily habit launchpad.
 - **Smart Tasks**: Priority-based Kanban management with 3-state workflows (To Do, In Progress, Done).
 - **Urgency Tracking**: Define deadlines with real-time countdowns, automatic sorting by urgency, and 'OVR' (Overdue) badge indicators.
 - **Instant Search**: Client-side filtering to instantly find tasks across all boards.

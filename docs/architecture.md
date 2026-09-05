@@ -23,6 +23,13 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 - **Derived State**: Component selections (like active task or note IDs) use direct comparisons during render rather than relying on `useEffect` to avoid cascading re-renders and improve application performance.
 - Write operations use custom hooks adhering to immutable updates.
 - **Timezone-Resilient Dates**: When recording daily completion data (e.g., Habit logs), calculations must normalize to the user's local calendar day as a string (e.g., `YYYY-MM-DD`) rather than saving raw UTC timestamps. This guarantees that end-of-day actions do not accidentally shift into the next day due to UTC offsets, preserving streak accuracy.
+- **Pure Time Rendering**: To comply with React's strict component purity rules, impure functions like `Date.now()` must never be called directly during the render cycle. Time-dependent UI elements (like dynamic overdue badges) must capture time via `useState` and update deterministically via a periodic `useEffect` interval.
+
+
+## Data Aggregation & Performance
+- **Cross-Store Queries**: The Dashboard acts as a unified command center by reading concurrently from multiple Dexie stores (`tasks`, `habits`, `habitLogs`, `pomodoroSessions`). These are strictly read-only aggregations derived using `useMemo`.
+- **Reference Stability (Dexie Hooks)**: When fetching data via `useLiveQuery`, fallback arrays must never be applied inline (e.g., `useLiveQuery(...) ?? []`). This creates a new array reference in memory on every render, breaking `useMemo` caching and causing exhaustive-deps memory leaks. Instead, handle empty states or fallbacks directly inside the memoized block.
+
 
 ## Styling Standards
 - Uses standard CSS with custom CSS variables defined in `src/index.css`.

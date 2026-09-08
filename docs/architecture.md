@@ -35,4 +35,12 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 - Uses standard CSS with custom CSS variables defined in `src/index.css`.
 - Styled around a high-contrast, premium dark theme (`#050505` background, `#111111` panels) featuring Playfair Display serif headings and Inter/JetBrains Mono UI typography.
 - Employs outline-style badges, ghost buttons, and subtle hover transforms for a tactile, app-like feel.
-- **Timer Accuracy**: Long-running intervals (e.g., Pomodoro countdowns) must calculate remaining time using absolute `Date.now()` timestamp deltas instead of decrementing counters to prevent drift caused by browser background tab throttling.
+- **Timer Accuracy**: Long-running intervals (e.g., Pomodoro countdowns) must calculate remaining time using absolute `Date.now()` timestamp deltas instead of decrementing counters to prevent drift caused by browser background tab throttling.          
+
+
+## Native Desktop Architecture 
+
+*   **Tauri Wrapper:** The React/Vite frontend is bundled within a Tauri Rust container, compiling to high-performance native OS executables to bypass browser limitations while maintaining the single web codebase.
+*   **Dev Server IPC:** The Vite development server is strictly bound to port `1420`. This ensures a stable inter-process communication (IPC) pipe to the native webview during local development.
+*   **Storage Isolation & Persistence:** The application leverages the OS-level webview (e.g., WebView2 on Windows) for data isolation. Dexie.js manages IndexedDB operations natively within this isolated container, ensuring local-first data (tasks, habits, sessions) safely persists across full application restarts.
+*   **Auxiliary Telemetry Layer:** While user productivity data strictly remains local-first via Dexie.js, the frontend silently fires asynchronous pings to an isolated cloud Node.js/Express service (`flowstate-api`) on startup. This tracks anonymous `clientIds` and OS distributions without ever touching the user's private data payloads.

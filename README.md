@@ -7,6 +7,7 @@ An offline-first, high-performance productivity suite designed for developers. F
 * **Frontend:** React + Vite
 * **Desktop Wrapper:** Tauri (Rust) for zero-latency native OS integration
 * **Local Storage:** Dexie.js (IndexedDB) with native webview persistence
+* **Telemetry & Infrastructure:** Decoupled Node.js/Express API for anonymous usage pings and download tracking (fully isolated from user productivity data)
 
 
 

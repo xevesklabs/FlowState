@@ -34,3 +34,19 @@ An offline-first, high-performance productivity suite designed for developers. F
 1. **Install dependencies:**
    ```bash
    npm install
+   ```
+
+2. **Run the React frontend locally (Browser mode):**
+   ```bash
+   npm run dev
+   ```
+
+3. **Run the Native Desktop App (Tauri):**
+   ```bash
+   npm run tauri dev
+   ```
+
+4. **Run the Test Suite (Vitest):**
+   ```bash
+   npx vitest run
+   ```

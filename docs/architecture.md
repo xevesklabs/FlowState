@@ -44,3 +44,8 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 *   **Dev Server IPC:** The Vite development server is strictly bound to port `1420`. This ensures a stable inter-process communication (IPC) pipe to the native webview during local development.
 *   **Storage Isolation & Persistence:** The application leverages the OS-level webview (e.g., WebView2 on Windows) for data isolation. Dexie.js manages IndexedDB operations natively within this isolated container, ensuring local-first data (tasks, habits, sessions) safely persists across full application restarts.
 *   **Auxiliary Telemetry Layer:** While user productivity data strictly remains local-first via Dexie.js, the frontend silently fires asynchronous pings to an isolated cloud Node.js/Express service (`flowstate-api`) on startup. This tracks anonymous `clientIds` and OS distributions without ever touching the user's private data payloads.
+
+## Security & Maintenance
+- **Content Security Policy (CSP):** The Tauri `tauri.conf.json` enforces a strict CSP (`default-src 'self'`) to block XSS and malicious code injection. Cross-origin requests are strictly locked to the designated remote telemetry API.
+- **Auto Updater:** The desktop app utilizes `@tauri-apps/plugin-updater`. On startup, it polls a GitHub Releases JSON endpoint. Updates are cryptographically verified using Ed25519 signatures generated via the local `updater.key` private key (excluded from git tracking).
+- **Automated Testing:** The codebase utilizes `vitest` alongside `@testing-library/react`. Tests are executed against a mock DOM (`jsdom`) to validate complex state transitions (like overdue task calculations) without requiring an active browser or IndexedDB engine.

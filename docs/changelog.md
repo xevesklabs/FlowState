@@ -12,6 +12,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * **Native Window Configuration:** Enforced 16:10 aspect ratio and dark mode boot background to prevent white flashes.
 * **Vite Integration:** Configured strict port binding (1420) to pipe the React frontend into the native webview.
 * **Telemetry Ping:** Implemented a silent `useEffect` on app mount to send an anonymous, decoupled telemetry ping to the external `flowstate-api` backend, tracking app opens while keeping local user data completely private.
+* **Auto Updater Plugin:** Integrated `tauri-plugin-updater` polling GitHub Releases for cryptographically verified updates via Ed25519 signing.
+* **Vitest Framework:** Implemented a robust React unit testing pipeline using `vitest` and `@testing-library/react`. 
+
+### Security
+* **Tauri CSP:** Locked down Tauri's Content Security Policy (`default-src 'self'`) to block XSS payloads and restrict unknown network connections.
 
 ### Verified
 * **Offline Persistence:** Confirmed Dexie.js IndexedDB data safely persists across full native application restarts.

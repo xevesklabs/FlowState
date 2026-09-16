@@ -3,10 +3,16 @@
 All notable changes to the **FlowState** project will be documented in this file. 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project follows a local-first, offline-ready architecture.
 
+## [Unreleased] Phase 8: Visual Overhaul (Starlight Theme)
+### Changed
+* **App Aesthetic:** Migrated the app from the legacy dark theme to the new "Starlight" monochrome visual identity (pure black, white, and silver).
+* **Heatmap & Widgets:** Stripped all hardcoded green, blue, and red UI elements from the Dashboard and replaced them with white/silver monochrome alternatives.
+* **App Icon:** Updated the webview favicon to the new transparent FlowState logo (`logo.png`).
+* **Vite Config:** Fixed an `EBUSY` loop issue on Windows by ignoring `src-tauri` in Vite's file watcher.
+
 ---
 
-
-## [Unreleased] Phase 7: Native Desktop Integration
+## Phase 7: Native Desktop Integration
 ### Added
 * **Tauri Scaffold:** Initialized Rust toolchain and desktop configuration.
 * **Native Window Configuration:** Enforced 16:10 aspect ratio and dark mode boot background to prevent white flashes.

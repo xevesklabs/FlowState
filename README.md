@@ -1,6 +1,6 @@
 # FlowState
 
-An offline-first, high-performance productivity suite designed for developers. FlowState keeps all data securely on your device using IndexedDB, ensuring zero latency, absolute privacy, and seamless offline functionality. Styled with a premium, high-contrast dark Kanban aesthetic.
+An offline-first, high-performance productivity suite designed for developers. FlowState keeps all data securely on your device using IndexedDB, ensuring zero latency, absolute privacy, and seamless offline functionality. Styled with a premium, distraction-free "Starlight" monochrome aesthetic.
 
 
 ## Architecture
@@ -25,7 +25,7 @@ An offline-first, high-performance productivity suite designed for developers. F
 
 ## Tech Stack
 - **Frontend**: React 18, Vite, React Router
-- **Styling**: Pure CSS with custom variables (Dark premium theme, Playfair Display & JetBrains Mono)
+- **Styling**: Pure CSS with custom variables (Starlight Monochrome theme, Playfair Display & JetBrains Mono)
 - **Database**: Dexie.js (IndexedDB wrapper)
 - **Icons**: Lucide React
 

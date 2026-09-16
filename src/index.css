@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
 
 :root {
-  /* Premium Dark Palette */
-  --bg-darker: #050505;
-  --bg-dark: #0a0a0a;
-  --bg-panel: #111111;
-  --border-color: #222222;
+  /* Starlight Monochrome Palette */
+  --bg-darker: #000000;
+  --bg-dark: #020202;
+  --bg-panel: #080808;
+  --border-color: #1a1a1a;
   
-  --text-primary: #e0e0e0;
-  --text-secondary: #666666;
-  --text-muted: #444444;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B8BAB8;
+  --text-muted: #70747A;
   
-  --accent-green: #5c8a63;
-  --accent-red: #b84b4b;
-  --accent-orange: #c27d38;
-  --accent-blue: #4a6fa5;
+  --accent-green: #FFFFFF;
+  --accent-red: #D4D6D3; /* Silver */
+  --accent-orange: #F4F4F1; /* Warm Starlight */
+  --accent-blue: #FFFFFF;
   
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;

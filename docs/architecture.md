@@ -33,7 +33,8 @@ We use `Dexie.js` to manage the browser's IndexedDB. This allows us to perform r
 
 ## Styling Standards
 - Uses standard CSS with custom CSS variables defined in `src/index.css`.
-- Styled around a high-contrast, premium dark theme (`#050505` background, `#111111` panels) featuring Playfair Display serif headings and Inter/JetBrains Mono UI typography.
+- Styled around the high-contrast "Starlight" monochrome visual identity (pure black `#000000`, white `#FFFFFF`, and silver accents).
+- Strictly limits colored accents in favor of a distraction-free, cinematic grayscale palette.
 - Employs outline-style badges, ghost buttons, and subtle hover transforms for a tactile, app-like feel.
 - **Timer Accuracy**: Long-running intervals (e.g., Pomodoro countdowns) must calculate remaining time using absolute `Date.now()` timestamp deltas instead of decrementing counters to prevent drift caused by browser background tab throttling.          
 

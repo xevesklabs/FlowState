@@ -13,7 +13,7 @@ export function Dashboard() {
   }, []);
 
   const getIntensityColor = (level) => {
-    const colors = ['#1a1a1a', '#2c4032', '#486851', '#6e8574', '#829c89'];
+    const colors = ['#1a1a1a', 'rgba(255, 255, 255, 0.15)', 'rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 0.7)', '#ffffff'];
     return colors[level] || colors[0];
   };
 
@@ -29,7 +29,7 @@ export function Dashboard() {
         {/* Urgency Triage Widget */}
         <div className="panel" style={{ background: '#0a0a0a', border: '1px solid #222', borderRadius: '8px', padding: '1.5rem' }}>
           <h2 style={{ fontSize: '1.1rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-            <AlertCircle size={18} style={{ color: 'var(--accent-red, #ff5555)' }} /> Urgency Triage
+            <AlertCircle size={18} style={{ color: 'var(--text-primary)' }} /> Urgency Triage
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {urgentTasks.length === 0 ? (
@@ -58,7 +58,7 @@ export function Dashboard() {
         {/* Daily Launchpad Widget */}
         <div className="panel" style={{ background: '#0a0a0a', border: '1px solid #222', borderRadius: '8px', padding: '1.5rem' }}>
           <h2 style={{ fontSize: '1.1rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-            <Clock size={18} style={{ color: 'var(--accent-blue, #5599ff)' }} /> Daily Launchpad
+            <Clock size={18} style={{ color: 'var(--text-primary)' }} /> Daily Launchpad
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
             {todayHabits.length === 0 ? (
@@ -66,7 +66,7 @@ export function Dashboard() {
             ) : (
               todayHabits.map(habit => (
                 <div key={habit.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <CheckCircle2 size={16} style={{ color: habit.isCompleted ? '#6e8574' : '#333' }} />
+                  <CheckCircle2 size={16} style={{ color: habit.isCompleted ? '#ffffff' : '#333' }} />
                   <span style={{ color: habit.isCompleted ? 'var(--text-secondary)' : '#fff', fontSize: '0.95rem', textDecoration: habit.isCompleted ? 'line-through' : 'none' }}>
                     {habit.name}
                   </span>
@@ -83,7 +83,7 @@ export function Dashboard() {
       {/* Unified Flow Heatmap Widget */}
       <div className="panel" style={{ background: '#0a0a0a', border: '1px solid #222', borderRadius: '8px', padding: '1.5rem' }}>
         <h2 style={{ fontSize: '1.1rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-          <Activity size={18} style={{ color: '#6e8574' }} /> 30-Day Productivity Score
+          <Activity size={18} style={{ color: '#ffffff' }} /> 30-Day Productivity Score
         </h2>
         <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '0.5rem' }}>
           {heatmap.map((day) => (
